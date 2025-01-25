@@ -1,0 +1,14 @@
+species: bud
+memsize: 8
+defense: 1
+offense: 1
+size: 1
+energy: 250
+posture: 0
+
+nearby[0] < -1 --> mem[7] := 1 eat;
+mem[7] = 1 --> mem[7] := 0 forward;
+nearby[1] < -1 or nearby[2] < -1 or nearby[3] < -1 --> right;
+nearby[4] < -1 or nearby[5] < -1 --> left;
+500 * SIZE - ENERGY <= 100 --> bud;
+1 = 1 --> wait;
