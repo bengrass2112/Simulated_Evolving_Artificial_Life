@@ -1,0 +1,71 @@
+species: LongestProgramEver
+memsize: 11
+defense: 1
+offense: 3
+size: 1
+energy: 499
+posture: 0
+
+//UPDATE TESTS -- first block
+//ACTION TESTS -- second block
+//UNARY AND SENSOR TESTS -- third block
+//BINARY CONDITION TESTS -- fourth block
+
+0 = mem[7] --> mem[7] := mem[7] + 1 mem[8] := 1; //Tests 1 update
+1 = mem[7] --> mem[7] := mem[7] + 1 mem[9] := 2 mem[10] := 3; //Tests multiple updates
+2 = mem[7] --> mem[7] := mem[7] + 1 mem[100] := 100; //Tests a non-existent (too large) mem address
+3 = mem[7] --> mem[7] := mem[7] + 1 mem[-1] := 100; //Tests a non-existent (negative) mem address
+4 = mem[7] --> mem[7] := mem[7] + 1 mem[0] := 1000; //Tests a non-assignable mem address (1, 2, 3, 4, 5)
+5 = mem[7] --> mem[7] := mem[7] + 1 mem[6] := 1000; //Tests an assignable, but constrained mem address with an outOfBounds value
+6 = mem[7] --> mem[7] := mem[7] + 1 mem[6] := 42; //Tests an assignable, but constrained mem address with an acceptable value
+
+7 = mem[7] or 14 = mem[7] or 17 = mem[7] --> mem[7] := mem[7] + 1 wait; //Tests only the wait action
+36 = mem[7] or 45 = mem[7] or 46 = mem[7] --> mem[7] := mem[7] + 1 forward; //Empty hex ahead
+29 = mem[7] or 37 = mem[7] --> mem[7] := mem[7] + 1 forward; //Non-Empty Hex ahead;
+30 = mem[7] --> mem[7] := mem[7] + 1 forward; //No hex ahead
+53 = mem[7] --> mem[7] := mem[7] + 1 backward; //Empty hex behind
+48 = mem[7] --> mem[7] := mem[7] + 1 backward; //Non-Empty hex behind
+44 = mem[7] --> mem[7] := mem[7] + 1 backward; //No hex behind 
+50 = mem[7] or 52 = mem[7] --> mem[7] := mem[7] + 1 right; //Tests the turn right method
+21 = mem[7] or 25 = mem[7] or 28 = mem[7] or 41 = mem[7] or 47 = mem[7] --> mem[7] := mem[7] + 1 left; //Tests the turn left method
+49 = mem[7] --> mem[7] := mem[7] + 1 eat; //Food ahead
+51 = mem[7] --> mem[7] := mem[7] + 1 eat; //Too much food ahead
+38 = mem[7] --> mem[7] := mem[7] + 1 eat; //Non-Food tile ahead
+31 = mem[7] --> mem[7] := mem[7] + 1 eat; //No tile ahead
+10000 = mem[7] --> mem[7] := mem[7] + 1 attack; //Critter ahead, should survive the attack
+10000 = mem[7] --> mem[7] := mem[7] + 1 attack; //Critter ahead, weak enough to die when attacked
+39 = mem[7] --> mem[7] := mem[7] + 1 attack; //Non-Critter tile ahead
+32 = mem[7] --> mem[7] := mem[7] + 1 attack; //No tile ahead
+10000 = mem[7] --> mem[7] := mem[7] + 1 grow; //Tests grow
+10000 = mem[7] --> mem[7] := mem[7] + 1 bud; //Empty tile behind
+10000 = mem[7] --> mem[7] := mem[7] + 1 bud; //Non-Empty tile behind
+10000 = mem[7] --> mem[7] := mem[7] + 1 bud; //No tile behind
+10000 = mem[7] --> mem[7] := mem[7] + 1 mate; //Should result in a mate
+10000 = mem[7] --> mem[7] := mem[7] + 1 mate; //Partner not facing the right way, but trying to mate
+10000 = mem[7] --> mem[7] := mem[7] + 1 mate; //Partner not trying to mate
+10000 = mem[7] --> mem[7] := mem[7] + 1 mate; //All mate requirements are met but neither space behind the critters are empty
+27 = mem[7] --> mem[7] := mem[7] + 1 serve[1]; //An appropriate serve amount
+40 = mem[7] --> mem[7] := mem[7] + 1 serve[1]; //An appropriate serve amount, but the space ahead is non-empty
+33 = mem[7] --> mem[7] := mem[7] + 1 serve[1]; //An appropriate serve amount, but the space ahead does not exist
+10000 = mem[7] --> mem[7] := mem[7] + 1 serve[1000]; //Serve too much energy
+42 = mem[7] --> mem[7] := mem[7] + 1 serve[0]; //Serves no food but loses energy
+43 = mem[7] --> mem[7] := mem[7] + 1 serve[-50]; //Functions like serve[0]
+34 = mem[7] --> mem[7] := mem[7] + 1 mem[8] := 4 left; //An update before an action
+35 = mem[7] --> mem[7] := mem[7] + 1 mem[9] := 5 mem[10] := 6; //Multiple updates before an action;
+
+15 = mem[7] --> mem[7] := mem[7] + 1 mem[8] := -1; //Tests that negative factors evaluate correctly
+16 = mem[7] --> mem[7] := mem[7] + 1 mem[9] := -((6-5) * 2); //Tests that negative expressions evaluate correctly
+18 = mem[7] --> mem[7] := mem[7] + 1 mem[8] := nearby[0]; //A normal nearby call
+19 = mem[7] --> mem[7] := mem[7] + 1 mem[9] := nearby[-1]; //Negative dir, should function like nearby[5]
+20 = mem[7] --> mem[7] := mem[7] + 1 mem[10] := nearby[61]; //Large dir, should function like nearby[1] in this case
+22 = mem[7] --> mem[7] := mem[7] + 1 mem[8] := ahead[0]; //Reports contents of this hex
+23 = mem[7] --> mem[7] := mem[7] + 1 mem[9] := ahead[1]; //Reports contents of a hex 1 ahead
+24 = mem[7] --> mem[7] := mem[7] + 1 mem[10] := ahead[3]; //Reports contents of a hex multiple tiles ahead
+26 = mem[7] --> mem[7] := mem[7] + 1 mem[9] := ahead[-5]; //Reports contents of this hex
+
+8 = mem[7] and 1 = 1 --> mem[7] := mem[7] + 1 mem[8] := 100; //Tests and, both are true
+9 = mem[7] and 1 = 2 --> mem[7] := mem[7] + 1 mem[8] := 101; //Tests and, 1 false
+10 = mem[7]+1 and 1=3 --> mem[7] := mem[7] + 1 mem[8] := 102; //Tests and, both false
+12 = mem[7] or 1 = 2 --> mem[7] := mem[7] + 1 mem[10] := 104; //Tests or, one false
+13 = mem[7]-1 or 1 = 2 --> mem[7] := mem[7] + 1 mem[10] := 105; //Tests or, both false. NOTE: mem[7] = 55 will make mem[10] = 105
+11 = mem[7] or 1 = 1--> mem[7] := mem[7] + 1 mem[9] := 103; //Tests or, both true

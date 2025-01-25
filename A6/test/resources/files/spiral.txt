@@ -1,0 +1,14 @@
+species: iridocyclitis
+memsize: 12
+defense: 1
+offense: 1
+size: 1
+energy: 250
+posture: 0
+
+ahead[1] < -1 --> eat;
+mem[7] = 0 and mem[8] = 0 --> mem[10] := 2 mem[8] := mem[8] + 1 forward;
+mem[10] > 0 --> mem[10] := mem[10] - 1 left;
+{mem[7] = 0 and mem[8] = 5} or {mem[7] != 0 and mem[8] = 6} --> mem[7] := mem[7] + 1 mem[8] := 0;
+{mem[7] != 0 and mem[8] = 1 and mem[9] > mem[7]} or {{mem[7] = 0 or mem[8] != 1} and mem[9] > mem[7]} --> mem[9] := 0 mem[8] := mem[8] + 1 mem[10] := 1;
+{mem[7] != 0 and mem[8] = 1 and mem[9] <= mem[7]} or {{mem[7] = 0 or mem[8] != 1} and mem[9] <= mem[7]} --> mem[9] := mem[9] + 1 forward;
